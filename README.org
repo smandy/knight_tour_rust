@@ -1,0 +1,12 @@
+
+
+* A knights tour
+
+  Been writing this in most languages as a way of gauging how to
+  implement the same problem using different idioms.
+
+  Rust channels seem to work well for communication between threas.
+
+  Was a lot easier to use channel than to interact with SDL directly
+  by posting it an event. Suspect using channel will be a lot more
+  flexible as will allow other use cases ( Network etc!).

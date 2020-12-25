@@ -8,47 +8,32 @@ use std::sync::mpsc::Sender;
 use sdl2::gfx::primitives::DrawRenderer;
 
 #[derive(Hash, Eq, PartialEq, Debug, Copy, Clone)]
-struct Coord { x: i8, y: i8 }
+struct Coord(i8, i8);
 
 impl Add<Coord> for Coord {
     type Output = Coord;
 
     fn add(self, rhs: Coord) -> Self::Output {
-        Coord { x: self.x + rhs.x, y: self.y + rhs.y }
+        Coord(self.0 + rhs.0, self.1 + rhs.1)
     }
 }
 
 impl Add<&Coord> for Coord {
     type Output = Coord;
     fn add(self, rhs: &Coord) -> Self::Output {
-        Coord { x: self.x + rhs.x, y: self.y + rhs.y }
-    }
-}
-
-impl Coord {
-    fn new(init: Option<(i8, i8)>) -> Coord {
-        match init {
-            Some((x, y)) => Coord { x, y },
-            None => Coord { x: 0, y: 0 }
-        }
+        Coord(self.0 + rhs.0, self.1 + rhs.1)
     }
 }
 
 impl std::ops::SubAssign for Coord {
     fn sub_assign(&mut self, rhs: Self) {
-        *self = Self {
-            x: self.x - rhs.x,
-            y: self.y - rhs.y,
-        }
+        *self = Self(self.0 - rhs.0, self.1 - rhs.1)
     }
 }
 
 impl std::ops::AddAssign for Coord {
     fn add_assign(&mut self, rhs: Self) {
-        *self = Self {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-        }
+        *self = Self(self.0 + rhs.0, self.1 + rhs.1)
     }
 }
 
@@ -56,42 +41,49 @@ impl std::ops::AddAssign for Coord {
 struct Board {
     moves_made: Vec<Coord>,
     current: Coord,
-    moves: Vec<Coord>,
-    // TODO - figure out how to const
     moves_to_make: Vec<Vec<Coord>>,
     board: [i8; 64],
+    moves : [Coord;8]
 }
 
 impl Board {
     pub fn value_at(&self, coord: Coord) -> i8 {
-        //println!("Value at {:?}", coord);
-        self.board[(coord.x * 8 + coord.y) as usize]
+        self.board[Board::index_of(coord)]
+    }
+
+    fn index_of(coord : Coord) ->  usize {
+        (coord.0 * 8 + coord.1) as usize
     }
 
     pub fn set_value_at(&mut self, coord: Coord, val: i8) {
-        self.board[(coord.x * 8 + coord.y) as usize] = val
+        self.board[Board::index_of(coord)] = val
     }
 
     pub fn new() -> Board {
         let mut ret = Board {
             moves_made: Vec::new(),
-            current: Coord::new(None),
+            current: Coord(0,0),
             moves_to_make: Vec::new(),
-            moves: {
-                let combs: [i8; 4] = [1i8, 2, -1, -2];
-                combs.iter().flat_map(|i|
-                    combs.iter().map(move |j| Coord::new(Some((*i, *j)))))
-                    .filter(|c| c.x.abs() != c.y.abs())
-                    .collect()
-            },
             board: [0; 64],
+            moves : {
+                let combs = [1i8, 2, -1, -2];
+                let mut ret = [Coord(0,0);8];
+                combs.iter().flat_map(|i| {
+                    combs.iter().map(move |j| {Coord(*i, *j) } ) })
+                    .filter(|c| c.0.abs() != c.1.abs())
+                    .enumerate()
+                    .for_each( |(i,x)| {
+                        ret[i] = x;
+                    } );
+                ret
+            }
         };
         ret.moves_to_make.push(ret.available_moves());
         ret
     }
 
     pub fn is_on_board(c: Coord) -> bool {
-        c.x >= 0 && c.x < 8 && c.y >= 0 && c.y < 8
+        c.0 >= 0 && c.1 < 8 && c.1 >= 0 && c.1 < 8
     }
 
     pub fn can_move(&self, c: Coord) -> bool {
@@ -191,14 +183,12 @@ fn main() -> Result<(), String> {
         }
         let red = Color::RGBA(255, 0, 0, 255);
         if let Some(xs) = &current_vec {
-            let mut current = Coord {
-                x: 0,
-                y: 0,
-            };
+            let mut current = Coord(0,0);
             let mut last: Option<Point> = None;
             for &x in xs.iter() {
                 current += x;
-                let new = Point::new((current.x as i32 * sz + sz / 2) as i32, (current.y as i32 * sz + sz / 2) as i32);
+                let c = &current;
+                let new = Point::new((c.0 as i32 * sz + sz / 2) as i32, (c.1 as i32 * sz + sz / 2) as i32);
                 if let Some(l) = last {
                     canvas.thick_line(l.x as i16, l.y as i16, new.x as i16, new.y as i16, 12, red)?
                 }
@@ -209,5 +199,4 @@ fn main() -> Result<(), String> {
         canvas.present();
     }
     return Ok(());
-
 }

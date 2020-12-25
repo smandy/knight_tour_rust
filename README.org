@@ -5,8 +5,12 @@
   Been writing this in most languages as a way of gauging how to
   implement the same problem using different idioms.
 
+  https://en.wikipedia.org/wiki/Knight%27s_tour
+
   Rust channels seem to work well for communication between threads.
 
   Was a lot easier to use channel than to interact with SDL directly
   by posting it an event. Suspect using channel will be a lot more
   flexible as will allow other use cases ( Network etc!).
+
+** TODO Add Warnsdorff's rule

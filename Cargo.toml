@@ -1,0 +1,13 @@
+[package]
+name = "knight_tour_rust"
+version = "0.1.0"
+authors = ["Andy Smith <andyrsmith@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+libc = "0.2.81"
+
+[dependencies.sdl2]
+version = "0.34.3"
+features = ["gfx"]
+

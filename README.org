@@ -13,5 +13,5 @@
   by posting it an event. Suspect using channel will be a lot more
   flexible as will allow other use cases ( Network etc!).
 
-*** To Do  [0/1]
-    - [ ] Add Warnsdorff's rule
+*** To Do  [1/1]
+    - [X] Add Warnsdorff's rule

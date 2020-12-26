@@ -221,8 +221,8 @@ fn main() -> Result<(), String> {
                 window_id: 0,
                 type_: event_type,
                 code: event_type as i32,
-                data1: 0 as *mut libc::c_void,
-                data2: 0 as *mut libc::c_void,
+                data1: std::ptr::null_mut::<libc::c_void>(),
+                data2: std::ptr::null_mut::<libc::c_void>(),
             })?
         }
 
@@ -249,13 +249,14 @@ fn main() -> Result<(), String> {
             }
         }
 
-        const CIRCLE_RADIUS: i16 = 40; //i16;
+        // const CIRCLE_RADIUS: i16 = 40; //i16;
         let red = Color::RGBA(255, 0, 0, 255);
-        let green = Color::RGBA(0, 255, 0, 255);
-        let blue = Color::RGBA(0, 0, 255, 255);
+        // let green = Color::RGBA(0, 255, 0, 255);
+        // let blue = Color::RGBA(0, 0, 255, 255);
         if let Some(xs) = &current_vec {
             let mut current = Coord(0, 0);
             let mut last: Option<Point> = None;
+            let mut first: Option<Point> = None;
             for &x in xs.iter() {
                 current += x;
                 let c = &current;
@@ -263,17 +264,23 @@ fn main() -> Result<(), String> {
                     (c.0 as i32 * SZ + SZ / 2) as i32,
                     (c.1 as i32 * SZ + SZ / 2) as i32,
                 );
-                match last {
-                    Some(l) => canvas
+
+                if first.is_none() {
+                    first = Some(new)
+                }
+
+                if let Some(l) = last {
+                    canvas
                         .thick_line(l.x as i16, l.y as i16, new.x as i16, new.y as i16, 12, red)
-                        .unwrap(),
-                    None => canvas
-                        .filled_circle(new.x as i16, new.y as i16, CIRCLE_RADIUS, green)
-                        .unwrap(),
+                        .unwrap()
                 };
+                // canvas
+                // .filled_circle(new.x as i16, new.y as i16, CIRCLE_RADIUS, green)
+                // .unwrap(),
                 last = Some(new)
             }
-            if let Some(last_point) = last {
+
+            /*            if let Some(last_point) = last {
                 canvas
                     .filled_circle(
                         last_point.x as i16,
@@ -282,6 +289,11 @@ fn main() -> Result<(), String> {
                         blue,
                     )
                     .unwrap();
+            } */
+            if let (Some(f), Some(l)) = (first, last) {
+                canvas
+                    .thick_line(f.x as i16, f.y as i16, l.x as i16, l.y as i16, 12, red)
+                    .unwrap()
             }
         }
         canvas.present();

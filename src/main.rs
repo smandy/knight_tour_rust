@@ -83,7 +83,7 @@ impl Board {
     }
 
     pub fn is_on_board(c: Coord) -> bool {
-        c.0 >= 0 && c.1 < 8 && c.1 >= 0 && c.1 < 8
+        c.0 >= 0 && c.0 < 8 && c.1 >= 0 && c.1 < 8
     }
 
     pub fn can_move(&self, c: Coord) -> bool {

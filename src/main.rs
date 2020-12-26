@@ -161,13 +161,20 @@ impl Board {
         }
     }
 
+    pub fn is_closed_tour(&self) -> bool {
+        return self
+            .moves
+            .iter()
+            .any(|m| self.current + m == *(self.moves_made.first().unwrap()));
+    }
+
     pub fn do_loop(&mut self, sender: Sender<Vec<Coord>>) {
         loop {
             let m = self.get_action();
             match m {
                 Mutation::Move => {
                     self.apply_best_move();
-                    if self.moves_made.len() == 64 {
+                    if self.moves_made.len() == 64 && self.is_closed_tour() {
                         sender.send(self.moves_made.clone()).unwrap();
                     }
                 }

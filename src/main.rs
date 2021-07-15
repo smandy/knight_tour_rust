@@ -192,7 +192,7 @@ impl Board {
 
 fn main() -> Result<(), String> {
     let sdl_context = sdl2::init()?;
-    let ev = sdl_context.event().unwrap();
+    //let ev = sdl_context.event().unwrap();
     let video_subsystem = sdl_context.video()?;
     let window = video_subsystem
         .window("A Knights Tour", 960, 960)
@@ -204,7 +204,7 @@ fn main() -> Result<(), String> {
         .software()
         .build()
         .map_err(|e| e.to_string())?;
-    let event_type = unsafe { ev.register_event().unwrap() };
+    //let event_type = unsafe { ev.register_event().unwrap() };
     let (tx, rx) = mpsc::channel();
     let mut b = Board::new();
 
@@ -216,14 +216,14 @@ fn main() -> Result<(), String> {
     'mainloop: loop {
         if let Ok(vec) = rx.try_recv() {
             current_vec = Some(vec);
-            ev.push_event(sdl2::event::Event::User {
-                timestamp: 0,
-                window_id: 0,
-                type_: event_type,
-                code: event_type as i32,
-                data1: std::ptr::null_mut::<libc::c_void>(),
-                data2: std::ptr::null_mut::<libc::c_void>(),
-            })?
+            // ev.push_event(sdl2::event::Event::User {
+            //     timestamp: 0,
+            //     window_id: 0,
+            //     type_: event_type,
+            //     code: event_type as i32,
+            //     data1: std::ptr::null_mut::<libc::c_void>(),
+            //     data2: std::ptr::null_mut::<libc::c_void>(),
+            // })?
         }
 
         for event in sdl_context.event_pump()?.poll_iter() {

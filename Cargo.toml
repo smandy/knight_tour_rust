@@ -5,9 +5,9 @@ authors = ["Andy Smith <andyrsmith@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-libc = "0.2.81"
+libc = "0.2.141"
 
 [dependencies.sdl2]
-version = "0.34.3"
+version = "0.35.2"
 features = ["gfx"]
 

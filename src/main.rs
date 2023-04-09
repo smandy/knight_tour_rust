@@ -1,3 +1,5 @@
+mod experiment;
+
 use sdl2::event::Event;
 use sdl2::gfx::primitives::DrawRenderer;
 use sdl2::keyboard::Keycode;
@@ -191,6 +193,10 @@ impl Board {
 }
 
 fn main() -> Result<(), String> {
+    println!("{} days", experiment::mysum(1,2));
+    println!("{} days", experiment::mysum(1.0 ,2.0));
+
+
     let sdl_context = sdl2::init()?;
     //let ev = sdl_context.event().unwrap();
     let video_subsystem = sdl_context.video()?;

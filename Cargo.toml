@@ -6,6 +6,9 @@ edition = "2018"
 
 [dependencies]
 libc = "0.2.141"
+# serde = "1.0.159"
+serde = { version = "1.0.159", features = ["derive"] }
+serde_json = "1.0.95"
 
 [dependencies.sdl2]
 version = "0.35.2"

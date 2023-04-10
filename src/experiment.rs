@@ -8,7 +8,7 @@ pub(crate) fn mysum<T>(num1: T, num2: T) -> T
     num1 + num2  // num1 + num2 is syntactic sugar for num1.add(num2) provided by the Add trait
 }
 
-fn main() {
+fn experiment_main() {
     let result1 = mysum(10, 20);
     println!("Sum is: {}", result1); // Sum is: 30
 

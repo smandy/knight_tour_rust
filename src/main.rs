@@ -108,8 +108,7 @@ impl Board {
             .copied()
             .filter(|m| {
                 let c = self.current + m;
-                let ret = Board::is_on_board(c) && self.can_move(c);
-                ret
+                Board::is_on_board(c) && self.can_move(c)
             })
             .collect()
     }
@@ -196,12 +195,12 @@ impl Board {
 
 
 fn main()  {
-    my_serde::main();
+    //my_serde::main();
 
-    println!("{} days", experiment::mysum(1, 2));
-    println!("{} days", experiment::mysum(1.0, 2.0));
+    //println!("{} days", experiment::mysum(1, 2));
+    //println!("{} days", experiment::mysum(1.0, 2.0));
 
-    doit().expect("TODO: panic message")qq;
+    doit().expect("TODO: panic message");
 }
 
 fn doit() -> Result<(), String> {
@@ -274,10 +273,7 @@ fn doit() -> Result<(), String> {
             for &x in xs.iter() {
                 current += x;
                 let c = &current;
-                let new = Point::new(
-                    (c.0 as i32 * SZ + SZ / 2) as i32,
-                    (c.1 as i32 * SZ + SZ / 2) as i32,
-                );
+                let new = Point::new(c.0 as i32 * SZ + SZ / 2, c.1 as i32 * SZ + SZ / 2);
 
                 if first.is_none() {
                     first = Some(new)

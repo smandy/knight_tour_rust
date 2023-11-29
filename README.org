@@ -1,5 +1,4 @@
 
-
 * A Knights Tour
 
   Been writing this in most languages as a way of gauging how to

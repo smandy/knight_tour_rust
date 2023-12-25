@@ -208,7 +208,7 @@ fn doit() -> Result<(), String> {
     //let ev = sdl_context.event().unwrap();
     let video_subsystem = sdl_context.video()?;
     let window = video_subsystem
-        .window("A Knights Tour", 960, 960)
+        .window("A Knights Tour", 800, 800)
         .position_centered()
         .build()
         .map_err(|e| e.to_string())?;
@@ -252,7 +252,7 @@ fn doit() -> Result<(), String> {
 
         canvas.set_draw_color(Color::RGBA(0, 0, 0, 255));
         canvas.clear();
-        const SZ: i32 = 120;
+        const SZ: i32 = 90;
         canvas.set_draw_color(Color::RGBA(255, 255, 255, 255));
         for x in 0i32..8 {
             for y in 0i32..8 {

@@ -8,6 +8,7 @@ struct Point {
 }
 
 
+#[allow(dead_code)]
 pub(crate) fn main() {
     let point = Point { x: 1, y: 2 };
 

@@ -10,6 +10,7 @@ use std::ops::Add;
 use std::sync::mpsc;
 use std::sync::mpsc::Sender;
 
+//use std::sync::mpsc::Sender;
 #[derive(Hash, Eq, PartialEq, Debug, Copy, Clone)]
 struct Coord(i8, i8);
 
@@ -219,6 +220,9 @@ fn doit() -> Result<(), String> {
         .map_err(|e| e.to_string())?;
     //let event_type = unsafe { ev.register_event().unwrap() };
     let (tx, rx) = mpsc::channel();
+
+    //let( a, b) = mpsc::channel();
+        
     let mut b = Board::new();
 
     std::thread::spawn(move || {
@@ -307,6 +311,8 @@ fn doit() -> Result<(), String> {
             }
         }
         canvas.present();
+
+        
     }
     Ok(())
 }
